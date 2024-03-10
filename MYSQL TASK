@@ -1,0 +1,95 @@
+1) Consider a table named orders with the following columns:
+order_id (integer)
+order_date (date)
+customer_id (integer)
+total_amount (decimal)
+
+Write an SQL query to find the total amount of orders placed by each customer.
+
+//Create a new database:
+CREATE DATABASE coapps_mysql;
+
+//use new database:
+USE coapps;
+
+//Create the orders table:
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_date DATE,
+    customer_id INT,
+    total_amount DECIMAL(10, 2)
+);
+
+//Insert data:
+INSERT INTO orders (order_date, customer_id, total_amount) VALUES
+('2024-03-10', 1, 500.50),('2024-03-11', 2, 40.50),('2024-03-12', 1, 50.00),('2024-03-13', 3, 300.20),('2024-03-14', 2, 150.00);
+
+//Total amount of orders placed by each customer:-
+SELECT customer_id, SUM(total_amount) AS total_orders_amount
+FROM orders
+GROUP BY customer_id;
+
++-------------+---------------------+
+| customer_id | total_orders_amount |
++-------------+---------------------+
+|           1 |              550.50 |
+|           2 |              190.50 |
+|           3 |              300.20 |
++-------------+---------------------+
+
+
+2) Consider two tables named students and courses with the following columns:
+
+students table:
+student_id (integer)
+student_name (varchar)
+course_id (integer)
+
+courses table:
+course_id (integer)
+course_name (varchar)
+
+Write an SQL query to list the names of students along with the courses they are enrolled in.
+Insert some sample data into the students table:
+
+//Create the students table:
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(255),
+    course_id INT
+);
+
+//Insert data:
+INSERT INTO students (student_name, course_id) VALUES
+('Albert', 1),
+('Singam', 2),
+('Shiva', 1),
+('Viki', 3),
+('Mani', 2);
+
+//Create the courses table:
+CREATE TABLE courses (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(255)
+);
+
+//Insert data:
+INSERT INTO courses (course_name) VALUES
+    ('Chemistry'),
+    ('Computer Science'),
+    ('Physics');
+
+//The names of students along with the courses they are enrolled in:-
+SELECT s.student_name, c.course_name
+FROM students s
+JOIN courses c ON s.course_id = c.course_id;
+
++--------------+------------------+
+| student_name | course_name      |
++--------------+------------------+
+| Albert       | Chemistry        |
+| Singam       | Computer Science |
+| Shiva        | Chemistry        |
+| Viki         | Physics          |
+| Mani         | Computer Science |
++--------------+------------------+
